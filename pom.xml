@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>spring-sans-boot</groupId>
+  <artifactId>spring-sans-boot</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <org.springframework-version>6.2.1</org.springframework-version>
+  </properties>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-framework-bom</artifactId>
+        <version>${org.springframework-version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <repositories>
+    <repository>
+      <id>repo1</id>
+      <name>repo1</name>
+      <url>https://repo1.uhc.com/artifactory/repo</url>
+    </repository>
+    <repository>
+      <id>repo1-rel</id>
+      <name>UHG-Releases</name>
+      <url>https://repo1.uhc.com/artifactory/list/UHG-Releases</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>apache.snapshots</id>
+      <url>https://repo1.uhc.com/artifactory/repo</url>
+    </pluginRepository>
+  </pluginRepositories>
+  <modules>
+    <module>spring-rest-api</module>
+    <module>eap</module>
+  </modules>
+
+</project>
