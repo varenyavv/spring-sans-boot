@@ -4,6 +4,8 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 public class RESTProducerInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
+  public static final String REST_PRODUCER_SERVLET_PATH = "/restproducer";
+
   @Override
   protected Class<?>[] getRootConfigClasses() {
     return null;
@@ -16,6 +18,7 @@ public class RESTProducerInitializer extends AbstractAnnotationConfigDispatcherS
 
   @Override
   protected String[] getServletMappings() {
-    return new String[]{"/restproducer/*"};
+    return new String[]{REST_PRODUCER_SERVLET_PATH + "/*"};
   }
+
 }

@@ -1,37 +1,37 @@
 package restservice.producer.common;
 
+import static org.springdoc.core.utils.Constants.DEFAULT_API_DOCS_URL;
+import static restservice.producer.common.RESTProducerInitializer.REST_PRODUCER_SERVLET_PATH;
+
 import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.servers.Server;
-import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springdoc.core.properties.SpringDocConfigProperties;
+import org.springdoc.core.properties.SpringDocConfigProperties.ApiDocs;
+import org.springdoc.core.properties.SwaggerUiConfigProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Configuration for the tool that automatically creates OpenApi/Swagger documentation for the API
  * associated with this microservice.
  */
 @Configuration
-public class OpenApiConfig implements WebMvcConfigurer {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(OpenApiConfig.class);
+public class OpenApiConfig {
 
   @Bean
-  public OpenAPI gpsRestOpenAPI() {
+  public OpenAPI openAPI(OpenApiProperties openApiProperties) {
     return new OpenAPI()
         .info(
             new Info()
-                .title("Test Rest APIs")
-                .description("APIs for accessing Test resources.")
-                .version("1")
-                .contact(buildContact()))
+                .title(openApiProperties.getTitle())
+                .description(openApiProperties.getDescription())
+                .version(openApiProperties.getVersion())
+                .contact(buildContact(openApiProperties)))
         .addSecurityItem(new SecurityRequirement().addList("Secure Web Token"))
         .components(
             new Components()
@@ -41,11 +41,36 @@ public class OpenApiConfig implements WebMvcConfigurer {
                         .type(SecurityScheme.Type.HTTP)
                         .scheme("bearer")
                         .bearerFormat("JWT")))
-        .servers(
-            List.of(new Server().url("http://localhost:8080/api").description("Localhost server")));
+        .extensions(openApiProperties.getxServiceLevelObjectives())
+        .externalDocs(
+            new ExternalDocumentation()
+                .description("Terms of Service")
+                .url(openApiProperties.getTermsOfServiceUrl()));
   }
 
-  private Contact buildContact() {
-    return new Contact().name("VV-org");
+  private Contact buildContact(OpenApiProperties openApiProperties) {
+    return new Contact()
+        .name(openApiProperties.getContactName())
+        .email(openApiProperties.getContactEmail())
+        .url(openApiProperties.getContactUrl());
   }
+
+  @Bean
+  public SpringDocConfigProperties springDocConfigProperties() {
+    SpringDocConfigProperties props = new SpringDocConfigProperties();
+    ApiDocs apiDocs = new ApiDocs();
+    apiDocs.setPath(REST_PRODUCER_SERVLET_PATH + DEFAULT_API_DOCS_URL);
+    props.setApiDocs(apiDocs);
+    return props;
+  }
+
+  @Bean
+  public SwaggerUiConfigProperties swaggerUiConfigProperties() {
+    SwaggerUiConfigProperties props = new SwaggerUiConfigProperties();
+    props.setDisableSwaggerDefaultUrl(true);
+    props.setDisplayRequestDuration(true);
+    props.setTryItOutEnabled(true);
+    return props;
+  }
+
 }

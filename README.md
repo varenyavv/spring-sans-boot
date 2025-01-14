@@ -3,4 +3,5 @@ A simple spring MVC project without SpringBoot integrated with SpringDoc on Open
 
 - EAR deployed on WildFly Server.
 - Test API accessible at http://localhost:8080/spring-sans-boot/restproducer/test/v1
-- Swagger Documentation accessible at http://localhost:8080/spring-sans-boot/swagger-ui/index.html
+- Swagger UI accessible at http://localhost:8080/spring-sans-boot/restproducer/swagger-ui/index.html
+- OpenAPI Documentation accessible at http://localhost:8080/spring-sans-boot/restproducer/v3/api-docs
