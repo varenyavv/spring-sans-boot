@@ -129,56 +129,6 @@
           <target>${java-version}</target>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.8.1</version>
-        <executions>
-          <execution>
-            <id>unpack</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.webjars</groupId>
-                  <artifactId>swagger-ui</artifactId>
-                  <version>5.18.2</version>
-                  <outputDirectory>${project.build.directory}/swagger-ui</outputDirectory>
-                  <includes>META-INF/resources/**</includes>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>3.2.0</version>
-        <executions>
-          <execution>
-            <id>copy-resources</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>
-                ${project.build.directory}/${project.build.finalName}/META-INF/resources
-              </outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${project.build.directory}/swagger-ui/META-INF/resources</directory>
-                  <filtering>false</filtering>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
 </project>
