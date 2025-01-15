@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -27,11 +28,16 @@ public class OpenApiInterceptor implements HandlerInterceptor {
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
       Object handler) {
     String serverUrl = getServerUrl(request);
-    openAPI.setServers(List.of(
-        new Server().url(serverUrl).description("Default server"),
-        new Server().url(openApiProperties.getServer())
-            .description(openApiProperties.getServerDescription())
-    ));
+    List<Server> serverList = new ArrayList<>();
+    serverList.add(new Server().url(serverUrl).description("Default server"));
+    openApiProperties.getServers().entrySet().stream()
+        .map(
+            stringStringEntry ->
+                new Server()
+                    .url((String) stringStringEntry.getValue())
+                    .description(stringStringEntry.getKey()))
+        .forEachOrdered(serverList::add);
+    openAPI.setServers(serverList);
     return true;
   }
 

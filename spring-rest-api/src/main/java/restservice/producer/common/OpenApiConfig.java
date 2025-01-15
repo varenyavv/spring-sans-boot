@@ -41,7 +41,7 @@ public class OpenApiConfig {
                         .type(SecurityScheme.Type.HTTP)
                         .scheme("bearer")
                         .bearerFormat("JWT")))
-        .extensions(openApiProperties.getxServiceLevelObjectives())
+        .extensions(openApiProperties.getXServiceLevelObjectives())
         .externalDocs(
             new ExternalDocumentation()
                 .description("Terms of Service")

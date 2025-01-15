@@ -86,12 +86,10 @@ public class OpenApiProperties {
   @Value("${contact-url}")
   private String contactUrl;
 
-  @Value("${server}")
-  private String server;
-
   @NotNull
-  @Value("${server-description}")
-  private String serverDescription;
+  @Value("#{${servers}}")
+  private Map<String, Object> servers;
+
   /**
    * Required service level objectives that are defined here:
    * <a href="https://api-docs.optum.com/standards/meta-information/">...</a>
@@ -137,15 +135,11 @@ public class OpenApiProperties {
     return termsOfServiceUrl;
   }
 
-  public String getServer() {
-    return server;
+  public @NotNull Map<String, Object> getServers() {
+    return servers;
   }
 
-  public String getServerDescription() {
-    return serverDescription;
-  }
-
-  public Map<String, Object> getxServiceLevelObjectives() {
+  public Map<String, Object> getXServiceLevelObjectives() {
     return xServiceLevelObjectives;
   }
 
@@ -161,8 +155,7 @@ public class OpenApiProperties {
         .append("contactName", contactName)
         .append("contactEmail", contactEmail)
         .append("contactUrl", contactUrl)
-        .append("server", server)
-        .append("serverDescription", serverDescription)
+        .append("servers", servers)
         .append("xServiceLevelObjectives", xServiceLevelObjectives)
         .toString();
   }
