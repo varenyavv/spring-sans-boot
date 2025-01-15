@@ -10,6 +10,8 @@ import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import java.util.TreeMap;
+import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springdoc.core.properties.SpringDocConfigProperties;
 import org.springdoc.core.properties.SpringDocConfigProperties.ApiDocs;
 import org.springdoc.core.properties.SwaggerUiConfigProperties;
@@ -73,4 +75,12 @@ public class OpenApiConfig {
     return props;
   }
 
+  @Bean
+  public OpenApiCustomizer sortSchemasAlphabetically() {
+    return openApi -> {
+      if (openApi.getComponents() != null && openApi.getComponents().getSchemas() != null) {
+        openApi.getComponents().setSchemas(new TreeMap<>(openApi.getComponents().getSchemas()));
+      }
+    };
+  }
 }
